@@ -1,0 +1,15 @@
+---
+- name: Converge
+  hosts: all
+
+  vars:
+    radarr_auth_username: "admin"
+    radarr_auth_password: "password"
+
+
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=true cache_valid_time=600
+
+  roles:
+    - role: ansible-role-radarr

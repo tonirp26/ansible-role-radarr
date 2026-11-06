@@ -1,0 +1,63 @@
+---
+- name: Ensure required Radarr dependencies are present.\
+  ansible.builtin.apt:
+    name:
+      - sqlite3
+      - libicu-dev
+    state: present
+
+- name: Create Radarr system user.
+  ansible.builtin.user:
+    name: radarr
+    home: /var/lib/radarr
+    create_home: true
+    system: true
+
+- name: Ensure Radarr data directory exists.
+  ansible.builtin.file:
+    path: /var/lib/radarr
+    state: directory
+    owner: radarr
+    group: radarr
+    mode: "0775"
+
+- name: Ensure Radarr installation directory is present.
+  ansible.builtin.file:
+    path: "{{ radarr_repository_path }}"
+    state: directory
+    owner: radarr
+    group: radarr
+    mode: "0755"
+
+- name: Download Radarr prebuilt release.
+  ansible.builtin.get_url:
+    url: "https://github.com/Radarr/Radarr/releases/download/v{{ radarr_version }}/Radarr.master.{{ radarr_version }}.linux-core-x64.tar.gz"
+    dest: /tmp/radarr.tar.gz
+    mode: '0644'
+
+- name: Extract Radarr prebuilt release.
+  ansible.builtin.unarchive:
+    src: /tmp/radarr.tar.gz
+    dest: "{{ radarr_repository_path }}"
+    owner: radarr
+    group: radarr
+    remote_src: true
+    extra_opts:
+      - --strip-components=1
+
+- name: Copy the systemd Radarr configuration template in place.
+  ansible.builtin.template:
+    src: "{{ radarr_systemd_template }}"
+    dest: /etc/systemd/system/radarr.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Reload systemd
+    - Restart Radarr
+
+- name: Ensure Radarr is running and enabled on boot.
+  ansible.builtin.systemd_service:
+    name: radarr
+    state: started
+    enabled: true

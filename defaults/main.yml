@@ -1,0 +1,9 @@
+---
+# Variables for Radarr installation.
+radarr_repository_path: "/opt/Radarr"
+radarr_version: "6.4.4.10685"
+radarr_systemd_template: radarr.service.j2
+
+# Variables for setting up the admin account.
+radarr_auth_username: "admin"
+radarr_auth_password: "password"
