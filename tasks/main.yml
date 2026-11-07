@@ -61,3 +61,6 @@
     name: radarr
     state: started
     enabled: true
+
+- name: Ensure admin user is present
+  ansible.builtin.import_tasks: admin_config.yml

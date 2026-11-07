@@ -4,6 +4,15 @@ radarr_repository_path: "/opt/Radarr"
 radarr_version: "6.4.4.10685"
 radarr_systemd_template: radarr.service.j2
 
+# Variable that set the admin username and password.
+radarr_admin_username: "admin"
+radarr_admin_password: "password"
+
 # Variables for setting up the admin account.
-radarr_auth_username: "admin"
-radarr_auth_password: "password"
+radarr_auth_config:
+  authenticationMethod: "forms"
+  authenticationRequired: "enabled"
+  username: "{{ radarr_admin_username }}"
+  password: "{{ radarr_admin_password }}"
+  passwordConfirmation: "{{ radarr_admin_password }}"
+
