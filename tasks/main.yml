@@ -64,3 +64,6 @@
 
 - name: Ensure admin user is present
   ansible.builtin.import_tasks: admin_config.yml
+
+- name: Configure file sizes recommended by TRaSH.
+  ansible.builtin.import_tasks: file_size.yml

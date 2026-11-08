@@ -3,9 +3,7 @@
   hosts: all
 
   vars:
-    radarr_auth_username: "admin"
-    radarr_auth_password: "password"
-
+    radarr_anime_profile: true
 
   pre_tasks:
     - name: Update apt cache.
