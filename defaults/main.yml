@@ -182,3 +182,116 @@ radarr_media_management:
   enableMediaInfo: true #True by default
   downloadPropersAndRepacks: "doNotPrefer"
 
+radarr_anime_custom_formats:
+  # Anime Bluray Tiers
+  - anime-bd-tier-01.json
+  - anime-bd-tier-02.json
+  - anime-bd-tier-03.json
+  - anime-bd-tier-04.json
+  - anime-bd-tier-05.json
+  - anime-bd-tier-06.json
+  - anime-bd-tier-07.json
+  - anime-bd-tier-08.json
+  # Anime WEB Tiers
+  - anime-web-tier-01.json
+  - anime-web-tier-02.json
+  - anime-web-tier-03.json
+  - anime-web-tier-04.json
+  - anime-web-tier-05.json
+  - anime-web-tier-06.json
+  # Remux Tiers
+  - remux-tier-01.json
+  - remux-tier-02.json
+  - remux-tier-03.json
+  # Raws / LQ
+  - anime-raws.json
+  - anime-lq-groups.json
+  # Uncensored / versionado
+  - uncensored.json
+  - v0.json
+  - v1.json
+  - v2.json
+  - v3.json
+  - v4.json
+  - vrv.json
+  # Atributos opcionales
+  - 10bit.json
+  - anime-dual-audio.json
+  - dubs-only.json
+  - vostfr.json
+  - av1.json
+
+radarr_movie_custom_formats:
+  # HQ Release Groups
+  - remux-tier-01.json
+  - remux-tier-02.json
+  - remux-tier-03.json
+  - web-tier-01.json
+  - web-tier-02.json
+  - web-tier-03.json
+  # Miscellaneous (Required)
+  - repack-proper.json
+  - repack2.json
+  - repack3.json
+  # Unwanted
+  - br-disk.json
+  - generated-dynamic-hdr.json
+  - lq.json
+  - lq(release-title).json
+  - x265(no-hdr-dv).json
+  - 3d.json
+  - extras.json
+  - sing-along-versions.json
+  - av1.json
+  # General Streaming Services
+  - amzn.json
+  - atv.json
+  - atvp.json
+  - bcore.json
+  - crit.json
+  - dsnp.json
+  - hbo.json
+  - hmax.json
+  - hulu.json
+  - it.json
+  - max.json
+  - ma.json
+  - nf.json
+  - pmtp.json
+  - pcok.json
+  - play.json
+  - roku.json
+  - stan.json
+  # Audio (Optional)
+  - truehd-atmos.json
+  - dts-x.json
+  - atmos-undefined.json
+  - dd-plus-atmos.json
+  - truehd.json
+  - dts-hd-ma.json
+  - flac.json
+  - pcm.json
+  - dts-hd-hra.json
+  - dd-plus.json
+  - dts-es.json
+  - dts.json
+  - aac.json
+  - dd.json
+  # Miscellaneous (Optional)
+  - bad-dual-groups.json
+  - black-and-white-editions.json
+  - no-rlsgroup.json
+  - obfuscated.json
+  - retags.json
+  - scene.json
+  # Movie Versions (Optional)
+  - hybrid.json
+  - remaster.json
+  - 4k-remaster.json
+  - criterion-collection.json
+  - masters-of-cinema.json
+  - vinegar-syndrome.json
+  - special-edition.json
+  - imax.json
+  - imax-enhanced.json
+

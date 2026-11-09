@@ -70,3 +70,6 @@
 
 - name: Configure naming scheme (Default TRaSH).
   ansible.builtin.import_tasks: naming_scheme.yml
+
+- name: Ensure required custom foramts exists.
+  ansible.builtin.import_tasks: custom_format.yml
