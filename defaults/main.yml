@@ -163,3 +163,22 @@ radarr_quality_sizes_anime:
     minSize: 5
     maxSize: 2000
     preferredSize: 1999
+
+radarr_anime_format: "{Movie CleanTitle} {(Release Year)} {tmdb-{TmdbId}} - {edition-{Edition Tags}} {[MediaInfo 3D]}{[Custom Formats]}{[Quality Full]}{[Mediainfo AudioCodec}{ Mediainfo AudioChannels]}{MediaInfo AudioLanguages}{[MediaInfo VideoDynamicRangeType]}[{Mediainfo VideoCodec }{MediaInfo VideoBitDepth}bit]{-Release Group}"
+radarr_movie_format: "{Movie CleanTitle} {(Release Year)} {tmdb-{TmdbId}} - {edition-{Edition Tags}} {[MediaInfo 3D]}{[Custom Formats]}{[Quality Full]}{[Mediainfo AudioCodec}{ Mediainfo AudioChannels]}{[MediaInfo VideoDynamicRangeType]}{[Mediainfo VideoCodec]}{-Release Group}"
+
+radarr_desired_movie_format: >-
+      {{ radarr_anime_format if radarr_anime_profile | bool
+         else radarr_movie_format }}
+
+# Variables for naming scheme, by default the ones recommended in the TRaSH guides.
+radarr_naming_scheme:
+  renameMovies: true
+  standardMovieFormat: "{{ radarr_desired_movie_format }}"
+  movieFolderFormat: "{Movie CleanTitle} ({Release Year}) {tmdb-{TmdbId}}"
+
+# Variables for advanced configuration in Radarr media management
+radarr_media_management:
+  enableMediaInfo: true #True by default
+  downloadPropersAndRepacks: "doNotPrefer"
+

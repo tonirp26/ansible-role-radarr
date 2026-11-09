@@ -1,0 +1,46 @@
+---
+- name: Get current naming scheme.
+  ansible.builtin.uri:
+    url: "http://localhost:7878/api/v3/config/naming"
+    method: GET
+    headers:
+      X-Api-Key: "{{ radarr_api_key }}"
+    status_code: 200
+  register: _radarr_naming_config
+
+- name: Ensure desired naming scheme is present.
+  vars:
+    _radarr_naming_desired: "{{ _radarr_naming_config.json | combine(radarr_naming_scheme) }}"
+  ansible.builtin.uri:
+    url: "http://localhost:7878/api/v3/config/naming/{{ _radarr_naming_config.json.id }}"
+    method: PUT
+    headers:
+      X-Api-Key: "{{ radarr_api_key }}"
+      Content-Type: "application/json"
+    body_format: json
+    body: "{{ _radarr_naming_desired }}"
+    status_code: 202
+  when: _radarr_naming_desired != _radarr_naming_config.json
+
+- name: Get current media management configuration.
+  ansible.builtin.uri:
+    url: "http://localhost:7878/api/v3/config/mediamanagement"
+    method: GET
+    headers:
+      X-Api-Key: "{{ radarr_api_key }}"
+    status_code: 200
+  register: _radarr_media_management_config
+
+- name: Ensure desired media management configuration is present.
+  vars:
+    _radarr_desired_media_management: "{{ _radarr_media_management_config.json | combine(radarr_media_management) }}"
+  ansible.builtin.uri:
+    url: "http://localhost:7878/api/v3/config/mediamanagement/{{ _radarr_media_management_config.json.id }}"
+    method: PUT
+    headers:
+      X-Api-Key: "{{ radarr_api_key }}"
+      Content-Type: "application/json"
+    body_format: json
+    body: "{{ _radarr_desired_media_management }}"
+    status_code: 202
+  when: _radarr_desired_media_management != _radarr_media_management_config

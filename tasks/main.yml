@@ -1,5 +1,5 @@
 ---
-- name: Ensure required Radarr dependencies are present.\
+- name: Ensure required Radarr dependencies are present.
   ansible.builtin.apt:
     name:
       - sqlite3
@@ -62,8 +62,11 @@
     state: started
     enabled: true
 
-- name: Ensure admin user is present
+- name: Ensure admin user is present.
   ansible.builtin.import_tasks: admin_config.yml
 
-- name: Configure file sizes recommended by TRaSH.
+- name: Configure file sizes (Default TRaSH).
   ansible.builtin.import_tasks: file_size.yml
+
+- name: Configure naming scheme (Default TRaSH).
+  ansible.builtin.import_tasks: naming_scheme.yml
