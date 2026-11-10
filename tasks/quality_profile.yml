@@ -82,9 +82,9 @@
 - name: Validate the common quality profile language.
   ansible.builtin.assert:
     that:
-      - radarr_common_languaje in _radarr_language_names
+      - radarr_common_language in _radarr_language_names
     fail_msg: >-
-      Invalid radarr_common_languaje value: {{ radarr_common_languaje }}.
+      Invalid radarr_common_language value: {{ radarr_common_language }}.
       It must match a language name returned by Radarr.
   when: not (radarr_anime_profile | bool)
 
@@ -97,7 +97,7 @@
       - item['items'] | length > 0
       - item.cutoff is defined
       - item.cutoff in (item['items'] | map(attribute='name') | list)
-      - ((radarr_common_languaje if not (radarr_anime_profile | bool) else (item.language['name'] if item.language is mapping else item.language)) | default('Original')) in _radarr_language_names
+      - ((radarr_common_language if not (radarr_anime_profile | bool) else (item.language['name'] if item.language is mapping else item.language)) | default('Original')) in _radarr_language_names
       - item['formatItems'] | default([]) | rejectattr('name', 'in', _radarr_custom_format_names) | list | length == 0
     fail_msg: >-
       Invalid quality profile definition: {{ item.name | default('unnamed') }}.
@@ -130,7 +130,7 @@
   vars:
     _quality_profile: >-
       {{
-        item | combine({'language': radarr_common_languaje})
+        item | combine({'language': radarr_common_language})
         if not (radarr_anime_profile | bool)
         else item
       }}

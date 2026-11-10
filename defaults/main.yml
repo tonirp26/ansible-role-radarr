@@ -306,4 +306,4 @@ radarr_quality_profiles_anime:
 
 # Language applied to every profile in radarr_quality_profiles_common.
 # It must match a Radarr language name.
-radarr_common_languaje: "Original"
+radarr_common_language: "Original"
