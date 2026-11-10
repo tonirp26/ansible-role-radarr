@@ -1,0 +1,283 @@
+{
+    "name": "Remux + WEB 1080p",
+    "upgradeAllowed": true,
+    "cutoff": "Remux-1080p",
+    "minFormatScore": 0,
+    "cutoffFormatScore": 10000,
+    "minUpgradeFormatScore": 1,
+    "language": "Original",
+    "items":[
+        {
+            "name": "Remux-1080p",
+            "allowed": true
+        },
+        {
+            "name": "WEB 1080p",
+            "allowed": true,
+            "items": ["WEBRip-1080p", "WEBDL-1080p"] 
+        }
+    ],
+    "formatItems": [
+        {
+            "name": "Remux Tier 01",
+            "score": 1950
+        },
+        {
+            "name": "Remux Tier 02",
+            "score": 1900
+        },
+        {
+            "name": "Remux Tier 03",
+            "score": 1850
+        },
+        {
+            "name": "WEB Tier 01",
+            "score": 1700
+        },
+        {
+            "name": "WEB Tier 02",
+            "score": 1650
+        },
+        {
+            "name": "WEB Tier 03",
+            "score": 1600
+        },
+        {
+            "name": "Repack/Proper",
+            "score": 5
+        },
+        {
+            "name": "Repack2",
+            "score": 6
+        },
+        {
+            "name": "Repack3",
+            "score": 7
+        },
+        {
+            "name": "BR-DISK",
+            "score": -10000
+        },
+        {
+            "name": "Generated Dynamic HDR",
+            "score": -10000
+        },
+        {
+            "name": "LQ",
+            "score": -10000
+        },
+        {
+            "name": "LQ (Release Title)",
+            "score": -10000
+        },
+        {
+            "name": "x265 (no HDR/DV)",
+            "score": -10000
+        },
+        {
+            "name": "3D",
+            "score": -10000
+        },
+        {
+            "name": "Extras",
+            "score": -10000
+        },
+        {
+            "name": "Sing-Along Versions",
+            "score": -10000
+        },
+        {
+            "name": "AV1",
+            "score": -10000
+        },
+        {
+            "name": "AMZN",
+            "score": 0
+        },
+        {
+            "name": "ATV",
+            "score": 0
+        },
+        {
+            "name": "ATVP",
+            "score": 0
+        },
+        {
+            "name": "BCORE",
+            "score": 15
+        },
+        {
+            "name": "CRiT",
+            "score": 20
+        },
+        {
+            "name": "DSNP",
+            "score": 0
+        },
+        {
+            "name": "HBO",
+            "score": 0
+        },
+        {
+            "name": "HMAX",
+            "score": 0
+        },
+        {
+            "name": "Hulu",
+            "score": 0
+        },
+        {
+            "name": "iT",
+            "score": 0
+        },
+        {
+            "name": "MAX",
+            "score": 0
+        },
+        {
+            "name": "MA",
+            "score": 20
+        },
+        {
+            "name": "NF",
+            "score": 0
+        },
+        {
+            "name": "PMTP",
+            "score": 0
+        },
+        {
+            "name": "PCOK",
+            "score": 0
+        },
+        {
+            "name": "PLAY",
+            "score": 0
+        },
+        {
+            "name": "ROKU",
+            "score": 0
+        },
+        {
+            "name": "STAN",
+            "score": 0
+        },
+        {
+            "name": "TrueHD ATMOS",
+            "score": 5000
+        },
+        {
+            "name": "DTS X",
+            "score": 4500
+        },
+        {
+            "name": "ATMOS (undefined)",
+            "score": 3000
+        },
+        {
+            "name": "DD+ ATMOS",
+            "score": 3000
+        },
+        {
+            "name": "TrueHD",
+            "score": 2750
+        },
+        {
+            "name": "DTS-HD MA",
+            "score": 2500
+        },
+        {
+            "name": "FLAC",
+            "score": 2250
+        },
+        {
+            "name": "PCM",
+            "score": 2250
+        },
+        {
+            "name": "DTS-HD HRA",
+            "score": 2000
+        },
+        {
+            "name": "DD+",
+            "score": 1750
+        },
+        {
+            "name": "DTS-ES",
+            "score": 1500
+        },
+        {
+            "name": "DTS",
+            "score": 1250
+        },
+        {
+            "name": "AAC",
+            "score": 1000
+        },
+        {
+            "name": "DD",
+            "score": 750
+        },
+        {
+            "name": "Bad Dual Groups",
+            "score": -10000
+        },
+        {
+            "name": "Black and White Editions",
+            "score": -10000
+        },
+        {
+            "name": "No-RlsGroup",
+            "score": -10000
+        },
+        {
+            "name": "Obfuscated",
+            "score": -10000
+        },
+        {
+            "name": "Retags",
+            "score": -10000
+        },
+        {
+            "name": "Scene",
+            "score": -10000
+        },
+        {
+            "name": "Hybrid",
+            "score": 100
+        },
+        {
+            "name": "Remaster",
+            "score": 25
+        },
+        {
+            "name": "4K Remaster",
+            "score": 25
+        },
+        {
+            "name": "Criterion Collection",
+            "score": 25
+        },
+        {
+            "name": "Masters of Cinema",
+            "score": 25
+        },
+        {
+            "name": "Vinegar Syndrome",
+            "score": 25
+        },
+        {
+            "name": "Special Edition",
+            "score": 125
+        },
+        {
+            "name": "IMAX",
+            "score": 800
+        },
+        {
+            "name": "IMAX Enhanced",
+            "score": 800
+        }
+    ]
+
+}

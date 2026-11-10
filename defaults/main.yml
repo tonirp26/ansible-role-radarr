@@ -295,3 +295,15 @@ radarr_movie_custom_formats:
   - imax.json
   - imax-enhanced.json
 
+# TRaSH quality profiles to install (files under files/quality_profiles/).
+# Only the profiles listed in the selected variable are kept: any other
+# existing profile is removed from Radarr.
+radarr_quality_profiles_common:
+  - remux+web-1080p.json
+
+radarr_quality_profiles_anime:
+  - "[anime]remux-1080p.json"
+
+# Language applied to every profile in radarr_quality_profiles_common.
+# It must match a Radarr language name.
+radarr_common_languaje: "Original"

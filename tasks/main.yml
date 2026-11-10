@@ -73,3 +73,6 @@
 
 - name: Ensure required custom foramts exists.
   ansible.builtin.import_tasks: custom_format.yml
+
+- name: Ensure quality profiles are present.
+  ansible.builtin.import_tasks: quality_profile.yml

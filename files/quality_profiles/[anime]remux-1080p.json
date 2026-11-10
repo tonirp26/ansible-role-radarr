@@ -1,0 +1,177 @@
+{
+    "name": "[Anime] Remux-1080p",
+    "upgradeAllowed": true,
+    "cutoff": "Remux-1080p",
+    "minFormatScore": 100,
+    "cutoffFormatScore": 10000,
+    "minUpgradeFormatScore": 1,
+    "language": "Original",
+    "items":[
+        {
+            "name": "Remux-1080p",
+            "allowed": true,
+            "items": ["Bluray-1080p","Remux-1080p"]
+        },
+        {
+            "name": "WEB 1080p",
+            "allowed": true,
+            "items": ["WEBRip-1080p", "WEBDL-1080p", "HDTV-1080p"] 
+        },
+        {
+            "name": "Bluray-720p",
+            "allowed": true
+        },
+        {
+            "name": "WEB 720p",
+            "allowed": true,
+            "items": ["WEBRip-720p", "WEBDL-720p", "HDTV-720p"] 
+        },
+        {
+            "name": "Bluray-576p",
+            "allowed": true
+        },
+        {
+            "name": "Bluray-480p",
+            "allowed": true
+        },
+        {
+            "name": "WEB 480p",
+            "allowed": true
+        },
+        {
+            "name": "DVD",
+            "allowed": true
+        },
+        {
+            "name": "SDTV",
+            "allowed": true
+        }
+    ],
+    "formatItems": [
+        {
+            "name": "Anime BD Tier 01",
+            "score": 1400
+        },
+        {
+            "name": "Anime BD Tier 02",
+            "score": 1300
+        },
+        {
+            "name": "Anime BD Tier 03",
+            "score": 1200
+        },
+        {
+            "name": "Anime BD Tier 04",
+            "score": 1100
+        },
+        {
+            "name": "Anime BD Tier 05",
+            "score": 1000
+        },
+        {
+            "name": "Anime BD Tier 06",
+            "score": 900
+        },
+        {
+            "name": "Anime BD Tier 07",
+            "score": 800
+        },
+        {
+            "name": "Anime BD Tier 08",
+            "score": 700
+        },
+        {
+            "name": "Anime Web Tier 01",
+            "score": 600
+        },
+        {
+            "name": "Anime Web Tier 02",
+            "score": 500
+        },
+        {
+            "name": "Anime Web Tier 03",
+            "score": 400
+        },
+        {
+            "name": "Anime Web Tier 04",
+            "score": 300
+        },
+        {
+            "name": "Anime Web Tier 05",
+            "score": 200
+        },
+        {
+            "name": "Anime Web Tier 06",
+            "score": 100
+        },
+        {
+            "name": "Remux Tier 01",
+            "score": 975
+        },
+        {
+            "name": "Remux Tier 02",
+            "score": 950
+        },
+        {
+            "name": "Remux Tier 03",
+            "score": 925
+        },
+        {
+            "name": "Anime Raws",
+            "score": -10000
+        },
+        {
+            "name": "Anime LQ Groups",
+            "score": -10000
+        },
+        {
+            "name": "Uncensored",
+            "score": 101
+        },
+        {
+            "name": "v0",
+            "score": -51
+        },
+        {
+            "name": "v1",
+            "score": 1
+        },
+        {
+            "name": "v2",
+            "score": 2
+        },
+        {
+            "name": "v3",
+            "score": 3
+        },
+        {
+            "name": "v4",
+            "score": 4
+        },
+        {
+            "name": "VRV",
+            "score": 10
+        },
+        {
+            "name": "10bit",
+            "score": 0
+        },
+        {
+            "name": "Anime Dual Audio",
+            "score": 0
+        },
+        {
+            "name": "Dubs Only",
+            "score": -10000
+        },
+        {
+            "name": "VOSTFR",
+            "score": -10000
+        },
+        {
+            "name": "AV1",
+            "score": -10000
+        }
+    ]
+
+}
