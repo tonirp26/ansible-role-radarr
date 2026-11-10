@@ -37,6 +37,3 @@
     body: "{{ _radarr_desired_host_config }}"
     status_code: 202
   when: _radarr_desired_host_config != _radarr_host_config.json
-
-    
-    

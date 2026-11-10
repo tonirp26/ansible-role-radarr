@@ -16,10 +16,10 @@ radarr_auth_config:
   password: "{{ radarr_admin_password }}"
   passwordConfirmation: "{{ radarr_admin_password }}"
 
-#Variable for set TV Series or Anime profile.
+# Variable for set TV Series or Anime profile.
 radarr_anime_profile: false
 
-#Default TRaSH varaibles for Radarr TV series profile.
+# Default TRaSH varaibles for Radarr TV series profile.
 radarr_quality_sizes_tv:
   HDTV-720p:
     minSize: 17.1
@@ -179,7 +179,7 @@ radarr_naming_scheme:
 
 # Variables for advanced configuration in Radarr media management
 radarr_media_management:
-  enableMediaInfo: true #True by default
+  enableMediaInfo: true # True by default
   downloadPropersAndRepacks: "doNotPrefer"
 
 radarr_anime_custom_formats:
