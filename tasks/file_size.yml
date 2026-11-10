@@ -1,0 +1,32 @@
+---
+- name: Get current quality defninitions (file sizes).
+  ansible.builtin.uri:
+    url: "http://localhost:7878/api/v3/qualitydefinition"
+    method: GET
+    headers:
+      X-Api-Key: "{{ radarr_api_key }}"
+    status_code: 200
+  register: _radarr_quality_definitions
+
+- name: Set quality size profile.
+  ansible.builtin.set_fact:
+    radarr_quality_sizes: >-
+      {{ radarr_quality_sizes_anime if radarr_anime_profile | bool
+          else radarr_quality_sizes_tv }}
+
+- name: Configure quality definitions.
+  ansible.builtin.uri:
+    url: "http://localhost:7878/api/v3/qualitydefinition/{{ item.id }}"
+    method: PUT
+    headers:
+      X-Api-Key: "{{ radarr_api_key }}"
+      Content-Type: "application/json"
+    body_format: json
+    body: "{{ item | combine(radarr_quality_sizes[item.quality.name]) }}"
+    status_code: 202
+  loop: "{{ _radarr_quality_definitions.json }}"
+  loop_control:
+    label: "{{ item.quality.name }}"
+  when:
+    - item.quality.name in radarr_quality_sizes
+    - item | combine(radarr_quality_sizes[item.quality.name]) != item

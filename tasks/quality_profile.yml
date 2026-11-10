@@ -1,0 +1,199 @@
+---
+- name: Get current quality profiles.
+  ansible.builtin.uri:
+    url: "http://localhost:7878/api/v3/qualityprofile"
+    method: GET
+    headers:
+      X-Api-Key: "{{ radarr_api_key }}"
+    status_code: 200
+  register: _radarr_quality_profiles
+
+- name: Get quality profile schema.
+  ansible.builtin.uri:
+    url: "http://localhost:7878/api/v3/qualityprofile/schema"
+    method: GET
+    headers:
+      X-Api-Key: "{{ radarr_api_key }}"
+    status_code: 200
+  register: _radarr_quality_profile_schema
+
+- name: Get Radarr languages.
+  ansible.builtin.uri:
+    url: "http://localhost:7878/api/v3/language"
+    method: GET
+    headers:
+      X-Api-Key: "{{ radarr_api_key }}"
+    status_code: 200
+  register: _radarr_languages
+
+- name: Set valid quality profile names from schema.
+  ansible.builtin.set_fact:
+    _radarr_quality_schema_names: >-
+      {{
+        (_radarr_quality_profile_schema.json['items'] | selectattr('name', 'defined') | map(attribute='name') | select('string') | list)
+        + (_radarr_quality_profile_schema.json['items'] | selectattr('quality', 'defined') | map(attribute='quality') | map(attribute='name') | list)
+        + (_radarr_quality_profile_schema.json['items'] | rejectattr('quality', 'defined') | map(attribute='items') | flatten | map(attribute='quality') | map(attribute='name') | list)
+      }}
+    _radarr_quality_names: >-
+      {{
+        (_radarr_quality_profile_schema.json['items'] | selectattr('quality', 'defined') | map(attribute='quality') | map(attribute='name') | list)
+        + (_radarr_quality_profile_schema.json['items'] | rejectattr('quality', 'defined') | map(attribute='items') | flatten | map(attribute='quality') | map(attribute='name') | list)
+      }}
+    _radarr_custom_format_names: "{{ _radarr_quality_profile_schema.json['formatItems'] | map(attribute='name') | list }}"
+    _radarr_language_names: "{{ _radarr_languages.json | map(attribute='name') | list }}"
+
+- name: Select quality profiles to install.
+  ansible.builtin.set_fact:
+    _radarr_quality_profiles_selected: >-
+      {{ radarr_quality_profiles_anime if radarr_anime_profile | bool
+         else radarr_quality_profiles_common }}
+
+- name: Ensure at least one quality profile is selected.
+  ansible.builtin.assert:
+    that:
+      - _radarr_quality_profiles_selected | length > 0
+    fail_msg: >-
+      No quality profile files are selected. Add at least one file to
+      radarr_quality_profiles_common or radarr_quality_profiles_anime.
+      Refusing to remove every quality profile from Radarr.
+
+- name: Initialize quality profile list.
+  ansible.builtin.set_fact:
+    _radarr_quality_profiles_list: []
+    _radarr_quality_profiles_payloads: []
+
+- name: Load quality profiles.
+  ansible.builtin.set_fact:
+    _radarr_quality_profiles_list: >-
+      {{
+        _radarr_quality_profiles_list
+        + [lookup('file', role_path ~ '/files/quality_profiles/' ~ item) | from_json]
+      }}
+  loop: "{{ _radarr_quality_profiles_selected }}"
+  loop_control:
+    label: "{{ item }}"
+
+- name: Ensure selected quality profile names are unique.
+  ansible.builtin.assert:
+    that:
+      - _radarr_quality_profiles_list | map(attribute='name') | list | unique | length == _radarr_quality_profiles_list | length
+    fail_msg: "The selected quality profile files define duplicate profile names."
+
+- name: Validate the common quality profile language.
+  ansible.builtin.assert:
+    that:
+      - radarr_common_language in _radarr_language_names
+    fail_msg: >-
+      Invalid radarr_common_language value: {{ radarr_common_language }}.
+      It must match a language name returned by Radarr.
+  when: not (radarr_anime_profile | bool)
+
+- name: Validate quality profile definitions.
+  ansible.builtin.assert:
+    that:
+      - item.name is defined
+      - item.name | length > 0
+      - item['items'] is defined
+      - item['items'] | length > 0
+      - item.cutoff is defined
+      - item.cutoff in (item['items'] | map(attribute='name') | list)
+      - ((radarr_common_language if not (radarr_anime_profile | bool) else (item.language['name'] if item.language is mapping else item.language)) | default('Original')) in _radarr_language_names
+      - item['formatItems'] | default([]) | rejectattr('name', 'in', _radarr_custom_format_names) | list | length == 0
+    fail_msg: >-
+      Invalid quality profile definition: {{ item.name | default('unnamed') }}.
+      Verify the qualities, groups, custom formats, cutoff and language names.
+  loop: "{{ _radarr_quality_profiles_list }}"
+  loop_control:
+    label: "{{ item.name | default('unnamed') }}"
+
+- name: Validate item names in quality profile definitions.
+  ansible.builtin.assert:
+    that:
+      - item.1.name is defined
+      - item.1.get('items', []) | length > 0 or item.1.name in _radarr_quality_schema_names
+      - item.1.get('items', []) | reject('in', _radarr_quality_names) | list | length == 0
+    fail_msg: >-
+      Invalid quality or group in quality profile definition:
+      {{ item.0.name | default('unnamed') }} / {{ item.1.name | default('unnamed') }}.
+      Verify the quality names used inside groups.
+  loop: "{{ _radarr_quality_profiles_list | subelements('items') }}"
+  loop_control:
+    label: "{{ item.0.name | default('unnamed') }} / {{ item.1.name | default('unnamed') }}"
+
+- name: Build quality profile payloads.
+  ansible.builtin.set_fact:
+    _radarr_quality_profiles_payloads: >-
+      {{
+        _radarr_quality_profiles_payloads
+        + [lookup('ansible.builtin.template', role_path ~ '/templates/quality_profile.json.j2') | from_json]
+      }}
+  vars:
+    _quality_profile: >-
+      {{
+        item | combine({'language': radarr_common_language})
+        if not (radarr_anime_profile | bool)
+        else item
+      }}
+    _quality_profile_schema: "{{ _radarr_quality_profile_schema.json }}"
+    _radarr_profile_languages: "{{ _radarr_languages.json }}"
+  loop: "{{ _radarr_quality_profiles_list }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Set desired quality profile names.
+  ansible.builtin.set_fact:
+    _radarr_desired_quality_profile_names: "{{ _radarr_quality_profiles_payloads | map(attribute='name') | list }}"
+
+- name: Remove quality profiles that are not defined in the selected profile set.
+  ansible.builtin.uri:
+    url: "http://localhost:7878/api/v3/qualityprofile/{{ item.id }}"
+    method: DELETE
+    headers:
+      X-Api-Key: "{{ radarr_api_key }}"
+    status_code: [200, 202, 204]
+  loop: "{{ _radarr_quality_profiles.json }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - item.name not in _radarr_desired_quality_profile_names
+
+- name: Update existing quality profiles.
+  vars:
+    _existing_matches: "{{ _radarr_quality_profiles.json | selectattr('name', 'equalto', item.name) | list }}"
+    _existing: "{{ _existing_matches[0] if _existing_matches | length > 0 else {} }}"
+    _desired: "{{ item | combine({'id': _existing['id']}) if _existing else item }}"
+    _desired_format_items: "{{ _desired['formatItems'] | default([]) | sort(attribute='format') }}"
+    _existing_format_items: "{{ _existing['formatItems'] | default([]) | sort(attribute='format') }}"
+    _desired_comparable: "{{ _desired | combine({'formatItems': _desired_format_items}) }}"
+    _existing_comparable: "{{ _existing | combine({'formatItems': _existing_format_items}) }}"
+  ansible.builtin.uri:
+    url: "http://localhost:7878/api/v3/qualityprofile/{{ _existing['id'] | default(0) }}"
+    method: PUT
+    headers:
+      X-Api-Key: "{{ radarr_api_key }}"
+      Content-Type: "application/json"
+    body_format: json
+    body: "{{ _desired }}"
+    status_code: [200, 202]
+  loop: "{{ _radarr_quality_profiles_payloads }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - _existing | length > 0
+    - _desired_comparable != _existing_comparable
+
+- name: Add missing quality profiles.
+  ansible.builtin.uri:
+    url: "http://localhost:7878/api/v3/qualityprofile"
+    method: POST
+    headers:
+      X-Api-Key: "{{ radarr_api_key }}"
+      Content-Type: "application/json"
+    body_format: json
+    body: "{{ item }}"
+    status_code: [200, 201, 202]
+  loop: "{{ _radarr_quality_profiles_payloads }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - item.name not in (_radarr_quality_profiles.json | map(attribute='name') | list)

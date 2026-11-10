@@ -1,0 +1,309 @@
+---
+# Variables for Radarr installation.
+radarr_repository_path: "/opt/Radarr"
+radarr_version: "6.4.4.10685"
+radarr_systemd_template: radarr.service.j2
+
+# Variable that set the admin username and password.
+radarr_admin_username: "admin"
+radarr_admin_password: "password"
+
+# Variables for setting up the admin account.
+radarr_auth_config:
+  authenticationMethod: "forms"
+  authenticationRequired: "enabled"
+  username: "{{ radarr_admin_username }}"
+  password: "{{ radarr_admin_password }}"
+  passwordConfirmation: "{{ radarr_admin_password }}"
+
+# Variable for set TV Series or Anime profile.
+radarr_anime_profile: false
+
+# Default TRaSH varaibles for Radarr TV series profile.
+radarr_quality_sizes_tv:
+  HDTV-720p:
+    minSize: 17.1
+    maxSize: 2000
+    preferredSize: 1999
+  WEBDL-720p:
+    minSize: 12.5
+    maxSize: 2000
+    preferredSize: 1999
+  WEBRip-720p:
+    minSize: 12.5
+    maxSize: 2000
+    preferredSize: 1999
+  Bluray-720p:
+    minSize: 25.7
+    maxSize: 2000
+    preferredSize: 1999
+  HDTV-1080p:
+    minSize: 33.8
+    maxSize: 2000
+    preferredSize: 1999
+  WEBDL-1080p:
+    minSize: 12.5
+    maxSize: 2000
+    preferredSize: 1999
+  WEBRip-1080p:
+    minSize: 12.5
+    maxSize: 2000
+    preferredSize: 1999
+  Bluray-1080p:
+    minSize: 50.8
+    maxSize: 2000
+    preferredSize: 1999
+  Remux-1080p:
+    minSize: 102
+    maxSize: 2000
+    preferredSize: 1999
+  HDTV-2160p:
+    minSize: 85
+    maxSize: 2000
+    preferredSize: 1999
+  WEBDL-2160p:
+    minSize: 34.5
+    maxSize: 2000
+    preferredSize: 1999
+  WEBRip-2160p:
+    minSize: 34.5
+    maxSize: 2000
+    preferredSize: 1999
+  Bluray-2160p:
+    minSize: 102
+    maxSize: 2000
+    preferredSize: 1999
+  Remux-2160p:
+    minSize: 187.4
+    maxSize: 2000
+    preferredSize: 1999
+
+radarr_quality_sizes_anime:
+  SDTV:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  DVD:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  DVD-R:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  WEBDL-480p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  WEBRip-480p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  Bluray-480p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  Bluray-576p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  HDTV-720p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  WEBDL-720p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  WEBRip-720p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  Bluray-720p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  HDTV-1080p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  WEBDL-1080p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  WEBRip-1080p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  Bluray-1080p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  Remux-1080p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  HDTV-2160p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  WEBDL-2160p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  WEBRip-2160p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  Bluray-2160p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+  Remux-2160p:
+    minSize: 5
+    maxSize: 2000
+    preferredSize: 1999
+
+radarr_anime_format: "{Movie CleanTitle} {(Release Year)} {tmdb-{TmdbId}} - {edition-{Edition Tags}} {[MediaInfo 3D]}{[Custom Formats]}{[Quality Full]}{[Mediainfo AudioCodec}{ Mediainfo AudioChannels]}{MediaInfo AudioLanguages}{[MediaInfo VideoDynamicRangeType]}[{Mediainfo VideoCodec }{MediaInfo VideoBitDepth}bit]{-Release Group}"
+radarr_movie_format: "{Movie CleanTitle} {(Release Year)} {tmdb-{TmdbId}} - {edition-{Edition Tags}} {[MediaInfo 3D]}{[Custom Formats]}{[Quality Full]}{[Mediainfo AudioCodec}{ Mediainfo AudioChannels]}{[MediaInfo VideoDynamicRangeType]}{[Mediainfo VideoCodec]}{-Release Group}"
+
+radarr_desired_movie_format: >-
+      {{ radarr_anime_format if radarr_anime_profile | bool
+         else radarr_movie_format }}
+
+# Variables for naming scheme, by default the ones recommended in the TRaSH guides.
+radarr_naming_scheme:
+  renameMovies: true
+  standardMovieFormat: "{{ radarr_desired_movie_format }}"
+  movieFolderFormat: "{Movie CleanTitle} ({Release Year}) {tmdb-{TmdbId}}"
+
+# Variables for advanced configuration in Radarr media management
+radarr_media_management:
+  enableMediaInfo: true # True by default
+  downloadPropersAndRepacks: "doNotPrefer"
+
+radarr_anime_custom_formats:
+  # Anime Bluray Tiers
+  - anime-bd-tier-01.json
+  - anime-bd-tier-02.json
+  - anime-bd-tier-03.json
+  - anime-bd-tier-04.json
+  - anime-bd-tier-05.json
+  - anime-bd-tier-06.json
+  - anime-bd-tier-07.json
+  - anime-bd-tier-08.json
+  # Anime WEB Tiers
+  - anime-web-tier-01.json
+  - anime-web-tier-02.json
+  - anime-web-tier-03.json
+  - anime-web-tier-04.json
+  - anime-web-tier-05.json
+  - anime-web-tier-06.json
+  # Remux Tiers
+  - remux-tier-01.json
+  - remux-tier-02.json
+  - remux-tier-03.json
+  # Raws / LQ
+  - anime-raws.json
+  - anime-lq-groups.json
+  # Uncensored / versionado
+  - uncensored.json
+  - v0.json
+  - v1.json
+  - v2.json
+  - v3.json
+  - v4.json
+  - vrv.json
+  # Atributos opcionales
+  - 10bit.json
+  - anime-dual-audio.json
+  - dubs-only.json
+  - vostfr.json
+  - av1.json
+
+radarr_movie_custom_formats:
+  # HQ Release Groups
+  - remux-tier-01.json
+  - remux-tier-02.json
+  - remux-tier-03.json
+  - web-tier-01.json
+  - web-tier-02.json
+  - web-tier-03.json
+  # Miscellaneous (Required)
+  - repack-proper.json
+  - repack2.json
+  - repack3.json
+  # Unwanted
+  - br-disk.json
+  - generated-dynamic-hdr.json
+  - lq.json
+  - lq(release-title).json
+  - x265(no-hdr-dv).json
+  - 3d.json
+  - extras.json
+  - sing-along-versions.json
+  - av1.json
+  # General Streaming Services
+  - amzn.json
+  - atv.json
+  - atvp.json
+  - bcore.json
+  - crit.json
+  - dsnp.json
+  - hbo.json
+  - hmax.json
+  - hulu.json
+  - it.json
+  - max.json
+  - ma.json
+  - nf.json
+  - pmtp.json
+  - pcok.json
+  - play.json
+  - roku.json
+  - stan.json
+  # Audio (Optional)
+  - truehd-atmos.json
+  - dts-x.json
+  - atmos-undefined.json
+  - dd-plus-atmos.json
+  - truehd.json
+  - dts-hd-ma.json
+  - flac.json
+  - pcm.json
+  - dts-hd-hra.json
+  - dd-plus.json
+  - dts-es.json
+  - dts.json
+  - aac.json
+  - dd.json
+  # Miscellaneous (Optional)
+  - bad-dual-groups.json
+  - black-and-white-editions.json
+  - no-rlsgroup.json
+  - obfuscated.json
+  - retags.json
+  - scene.json
+  # Movie Versions (Optional)
+  - hybrid.json
+  - remaster.json
+  - 4k-remaster.json
+  - criterion-collection.json
+  - masters-of-cinema.json
+  - vinegar-syndrome.json
+  - special-edition.json
+  - imax.json
+  - imax-enhanced.json
+
+# TRaSH quality profiles to install (files under files/quality_profiles/).
+# Only the profiles listed in the selected variable are kept: any other
+# existing profile is removed from Radarr.
+radarr_quality_profiles_common:
+  - remux+web-1080p.json
+
+radarr_quality_profiles_anime:
+  - "[anime]remux-1080p.json"
+
+# Language applied to every profile in radarr_quality_profiles_common.
+# It must match a Radarr language name.
+radarr_common_language: "Original"
